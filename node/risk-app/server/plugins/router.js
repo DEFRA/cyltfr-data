@@ -12,7 +12,6 @@ const routes = [].concat(
   require('../routes/gwc-proxy'),
   require('../routes/feedback'),
   require('../routes/os-terms'),
-  require('../routes/geocode'),
   require('../routes/accessibility-statement'),
   require('../routes/cookies'),
   require('../routes/privacy-notice'),
@@ -36,7 +35,7 @@ if (config.riskPageFlag) {
 module.exports = {
   plugin: {
     name: 'router',
-    register: (server, options) => {
+    register: (server, _options) => {
       server.route(routes)
     }
   }

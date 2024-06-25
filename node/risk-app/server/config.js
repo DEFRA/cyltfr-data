@@ -24,7 +24,6 @@ const schema = joi.object().keys({
   osPostcodeUrl: joi.string().uri().required(),
   osGetCapabilitiesUrl: joi.string().required().allow(''),
   osMapsUrl: joi.string().uri().required(),
-  osNamesUrl: joi.string().uri().required(),
   osSearchKey: joi.string().required().allow(''),
   osMapsKey: joi.string().required().allow(''),
   http_proxy: joi.string(),
@@ -70,10 +69,9 @@ const names = {
   osPostcodeUrl: 'OS_POSTCODE_URL',
   osGetCapabilitiesUrl: 'OS_CAPABILITIES_URL',
   osMapsUrl: 'OS_MAPS_URL',
-  osNamesUrl: 'OS_NAMES_URL',
   osSearchKey: 'OS_SEARCH_KEY',
   osMapsKey: 'OS_MAPS_KEY',
-  http_proxy: 'HTTP_PROXY',
+  http_proxy: 'http_proxy',
   rateLimitEnabled: 'RATE_LIMIT_ENABLED',
   rateLimitRequests: 'RATE_LIMIT_REQUESTS',
   rateLimitExpiresIn: 'RATE_LIMIT_EXPIRES_IN',
@@ -133,6 +131,7 @@ let result = schema.validate(config, {
 if (result.error) {
   // read from config file
   readConfigFile()
+
   result = schema.validate(config, {
     abortEarly: false
   })
@@ -151,6 +150,8 @@ const value = result.value
 value.isDev = value.env === 'dev'
 value.isTest = value.env === 'test'
 value.isProd = value.env.startsWith('prod-')
+
+console.log('Server config', value)
 
 value.names = names
 
