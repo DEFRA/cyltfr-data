@@ -21,19 +21,15 @@ async function s3DataLoader () {
     return jsonData
   }
 
-  try {
-    const command = new AWS.GetObjectCommand({
-      Bucket: config.awsBucketName,
-      Key: manifestKey
-    })
-    const response = await client.send(command)
-    const contents = await response.Body.transformToString()
-    const jsonData = await loadFeatureData(JSON.parse(contents))
+  const command = new AWS.GetObjectCommand({
+    Bucket: config.awsBucketName,
+    Key: manifestKey
+  })
+  const response = await client.send(command)
+  const contents = await response.Body.transformToString()
+  const jsonData = await loadFeatureData(JSON.parse(contents))
 
-    return jsonData
-  } catch (err) {
-    console.error(err)
-  }
+  return jsonData
 }
 
 module.exports = s3DataLoader
