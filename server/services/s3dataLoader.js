@@ -27,9 +27,9 @@ async function s3DataLoader () {
 
   const response = await doS3Command(manifestKey)
   const contents = await response.Body.transformToString()
-  const jsonData = await loadFeatureData(JSON.parse(contents))
+  const data = await loadFeatureData(JSON.parse(contents))
 
-  return jsonData
+  return data
 }
 
 module.exports = s3DataLoader
