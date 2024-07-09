@@ -1,8 +1,8 @@
-const AWS = require('@aws-sdk/client-s3')
-const config = require('../config')
-const manifestKey = `${config.holdingCommentsPrefix}/${config.manifestFilename}`
-
 async function s3DataLoader () {
+  const AWS = require('@aws-sdk/client-s3')
+  const config = require('../config')
+  const manifestKey = `${config.holdingCommentsPrefix}/${config.manifestFilename}`
+
   const client = new AWS.S3Client({
     region: config.awsBucketRegion
   })

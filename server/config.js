@@ -2,9 +2,9 @@ const joi = require('joi')
 
 // Define config schema
 const schema = joi.object().keys({
-  env: joi.string().valid('dev', 'test', 'prod-green', 'prod-blue'),
-  host: joi.string().hostname().required(),
-  port: joi.number().integer().required(),
+  env: joi.string().default('dev').valid('dev', 'test', 'prod-green', 'prod-blue'),
+  host: joi.string().hostname().default('0.0.0.0'),
+  port: joi.number().integer().default(3000),
   awsBucketRegion: joi.string().required(),
   awsBucketName: joi.string().required(),
   holdingCommentsPrefix: joi.string().default('holding-comments'),
@@ -39,6 +39,8 @@ value.isDev = value.env === 'dev'
 value.isTest = value.env === 'test'
 value.isProd = value.env.startsWith('prod-')
 
-console.log('Server config', value)
+if (process.env.JEST_WORKER_ID === undefined) {
+  console.log('Server config', value)
+}
 
 module.exports = value

@@ -13,7 +13,6 @@ const getExtraInfoData = async function () {
 const formatExtraInfo = function (extraInfoData) {
   const retVal = []
 
-  console.log(extraInfoData)
   extraInfoData.forEach((item) => {
     retVal.push({
       info: item[0].properties.info,
