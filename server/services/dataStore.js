@@ -5,21 +5,9 @@ class DataStore {
   // list of all the extra_info data
   constructor (manifestJson) {
     this._originalManifest = manifestJson
-    this._featureDataLoaded = false
-  }
-
-  loadFeatureData () {
-    this._originalManifest.forEach((item) => {
-      const featureData = this.loadIndividualFeature(item)
-      item.features = featureData
-    })
-    this._featureDataLoaded = true
   }
 
   featuresAtPoint (x, y, approvedOnly) {
-    if (!this._featureDataLoaded) {
-      this.loadFeatureData()
-    }
     const pointToCheck = point([x, y])
     const dataToCheck = approvedOnly ? this._originalManifest.filter((item) => { return item.approvedBy ? item : null }) : this._originalManifest
     const dataToReturn = []
