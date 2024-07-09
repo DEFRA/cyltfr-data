@@ -19,7 +19,6 @@ function loadIndividualFeature (item, filepath) {
   const key = item.keyname
   const data = fs.readFileSync(path.join(filepath, key))
   const jsonData = JSON.parse(data)
-  jsonData.parent = item
   return jsonData
 }
 

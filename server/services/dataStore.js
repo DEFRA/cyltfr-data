@@ -14,7 +14,7 @@ class DataStore {
     dataToCheck.forEach((item) => {
       item.features.features.forEach((feature) => {
         if (booleanPointInPolygon(pointToCheck, feature)) {
-          dataToReturn.push([item, feature])
+          dataToReturn.push([feature])
         }
       })
     })
