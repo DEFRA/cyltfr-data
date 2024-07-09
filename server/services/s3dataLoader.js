@@ -7,25 +7,25 @@ async function s3DataLoader () {
     region: config.awsBucketRegion
   })
 
+  const doS3Command = async (key) => {
+    const command = new AWS.GetObjectCommand({
+      Bucket: config.awsBucketName,
+      Key: key
+    })
+    return client.send(command)
+  }
+
   const loadFeatureData = async (jsonData) => {
     await Promise.all(jsonData.map(async (item) => {
-      const command = new AWS.GetObjectCommand({
-        Bucket: config.awsBucketName,
-        Key: `${config.holdingCommentsPrefix}/${item.keyname}`
-      })
-      const response = await client.send(command)
-      const itemcontents = await response.Body.transformToString()
+      const itemResponse = await doS3Command(`${config.holdingCommentsPrefix}/${item.keyname}`)
+      const itemcontents = await itemResponse.Body.transformToString()
       const featureData = JSON.parse(itemcontents)
       item.features = featureData
     }))
     return jsonData
   }
 
-  const command = new AWS.GetObjectCommand({
-    Bucket: config.awsBucketName,
-    Key: manifestKey
-  })
-  const response = await client.send(command)
+  const response = await doS3Command(manifestKey)
   const contents = await response.Body.transformToString()
   const jsonData = await loadFeatureData(JSON.parse(contents))
 
