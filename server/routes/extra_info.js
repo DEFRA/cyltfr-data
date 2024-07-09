@@ -1,5 +1,4 @@
 const joi = require('joi')
-// const boom = require('@hapi/boom')
 const extraInfoService = require('../services/index')
 
 module.exports = {
