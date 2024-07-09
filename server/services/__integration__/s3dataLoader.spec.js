@@ -1,11 +1,11 @@
-const fileDataLoader = require('../fileDataLoader.js')
+const s3dataLoader = require('../s3dataLoader')
 const DataStore = require('../dataStore.js')
 
 describe('/FileDataLoader test', () => {
   let dataStore
 
-  beforeAll(() => {
-    const data = fileDataLoader('./server/services/__tests__/data', 'manifest.json')
+  beforeAll(async () => {
+    const data = await s3dataLoader()
     dataStore = new DataStore(data)
   })
 

@@ -9,7 +9,8 @@
   "scripts": {
     "start": "node index.js",
     "test": "npm run test:lint && npm run test:jest",
-    "test:jest": "jest --no-cache  --detectOpenHandles --runInBand --forceExit  --collectCoverage server/",
+    "test:jest": "jest --no-cache  --detectOpenHandles --runInBand --forceExit  --collectCoverage server/**/__tests__/*.spec.js",
+    "test:integration": "jest --no-cache  --detectOpenHandles --runInBand --forceExit  --collectCoverage server/**/__integration__/*.spec.js",
     "test:lint": "standard",
     "test:watch": "jest --watch --no-cache --detectOpenHandles --runInBand --forceExit server/",
     "container:build": "docker build -t cyltfr-risk-data --target production .",
@@ -26,6 +27,7 @@
   "author": "Matthew Collins <matthew.collins@defra.gov.uk>",
   "license": "OGL-UK-3.0",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.609.0",
     "@hapi/boom": "^10.0.1",
     "@hapi/hapi": "^21.3.9",
     "@turf/boolean-point-in-polygon": "^7.0.0",

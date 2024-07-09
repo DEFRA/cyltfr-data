@@ -20,8 +20,12 @@ const schema = joi.object().keys({
 
 const config = {
   env: process.env.NODE_ENV,
-  host: process.env.RISK_DATA_HOST,
-  port: process.env.PORT
+  port: process.env.PORT,
+  host: process.env.HOST,
+  awsBucketRegion: process.env.AWS_BUCKET_REGION,
+  awsBucketName: process.env.AWS_BUCKET_NAME,
+  holdingCommentsPrefix: process.env.HOLDING_COMMENTS_PREFIX,
+  manifestFilename: process.env.MANIFEST_FILENAME
 }
 
 // Validate config
@@ -29,6 +33,9 @@ let result = schema.validate(config, {
   abortEarly: false
 })
 
+if (result.error) {
+  throw new Error(`The server config is invalid. ${result.error.message}`)
+}
 if (result.error) {
   // read from config file
   readConfigFile()
