@@ -1,7 +1,7 @@
 const s3DataLoader = require('./s3dataLoader')
 const DataStore = require('./dataStore.js')
-const CACHE_EXPIRY = 5 * 60 * 1000 // 5 minutes
-const CACHE_GENERATE_TIMEOUT = 20 * 1000 // 20 seconds
+const CACHE_EXPIRY = 300 // 5 minutes
+const CACHE_GENERATE_TIMEOUT = 20 // 20 seconds
 
 const getExtraInfoData = async function () {
   const data = await s3DataLoader()
@@ -38,8 +38,8 @@ const extraInfoService = {
       options: {
         cache: {
           cache: 'server_cache',
-          expiresIn: CACHE_EXPIRY,
-          generateTimeout: CACHE_GENERATE_TIMEOUT
+          expiresIn: CACHE_EXPIRY * 1000,
+          generateTimeout: CACHE_GENERATE_TIMEOUT * 1000
         }
       }
     }
