@@ -1,5 +1,5 @@
 const joi = require('joi')
-const extraInfoService = require('../services/index')
+const extraInfoService = require('../services/extraInfoService')
 
 module.exports = {
   method: 'GET',

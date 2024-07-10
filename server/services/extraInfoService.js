@@ -1,4 +1,4 @@
-const s3DataLoader = require('./s3dataLoader')
+const s3DataLoader = require('./s3dataLoader.js')
 const DataStore = require('./dataStore.js')
 
 const getExtraInfoData = async function () {

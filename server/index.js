@@ -1,6 +1,6 @@
 const hapi = require('@hapi/hapi')
 const config = require('./config')
-const extraInfoService = require('./services/index')
+const extraInfoService = require('./services/extraInfoService')
 const cache = require('./cache')
 
 async function createServer () {

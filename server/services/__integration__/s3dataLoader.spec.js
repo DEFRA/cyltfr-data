@@ -1,7 +1,7 @@
 const s3dataLoader = require('../s3dataLoader')
 const DataStore = require('../dataStore.js')
 
-describe('/FileDataLoader test', () => {
+describe('/S3DataLoader test', () => {
   let dataStore
 
   beforeAll(async () => {
