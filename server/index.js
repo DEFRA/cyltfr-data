@@ -24,9 +24,17 @@ async function createServer () {
   await server.register(require('./plugins/logging'))
   await server.register(require('blipp'))
 
-  const extraInfoMethod = extraInfoService.getServerMethod()
+  // Register server methods
+  const CACHE_EXPIRY = 300 // 5 minutes
+  const CACHE_GENERATE_TIMEOUT = 20 // 20 seconds
 
-  server.method(extraInfoMethod.name, extraInfoMethod.method, extraInfoMethod.options)
+  server.method('getExtraInfoData', extraInfoService.getExtraInfoData, {
+    cache: {
+      cache: 'server_cache',
+      expiresIn: CACHE_EXPIRY * 1000,
+      generateTimeout: CACHE_GENERATE_TIMEOUT * 1000
+    }
+  })
 
   return server
 }
