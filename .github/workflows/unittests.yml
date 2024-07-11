@@ -1,0 +1,29 @@
+name: UNITTEST
+
+on:
+  push:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      AWS_BUCKET_REGION: unittest
+      AWS_BUCKET_NAME: unittest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of sonarcloud analysis
+      - name: Run unit tests
+        run: |
+          npm run install
+          npm run test
+          sed -i 's/\/home\/runner\/work\/cyltfr-data\/cyltfr-data\//\/github\/workspace\//g' test/output/lcov.info
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
