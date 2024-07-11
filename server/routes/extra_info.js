@@ -9,8 +9,8 @@ module.exports = {
     handler: async (request, _h) => {
       const params = request.params
 
-      const dataStore = await request.server.methods.getExtraInfoData()
-      const items = dataStore.featuresAtPoint(params.x, params.y, true)
+      const data = await request.server.methods.getExtraInfoData()
+      const items = extraInfoService.featuresAtPoint(data, params.x, params.y, true)
       const result = extraInfoService.formatExtraInfo(items)
       return result
     },

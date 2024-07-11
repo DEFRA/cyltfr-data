@@ -4,7 +4,7 @@ const joi = require('joi')
 const schema = joi.object().keys({
   env: joi.string().default('dev').valid('dev', 'test', 'prod-green', 'prod-blue'),
   host: joi.string().hostname().default('0.0.0.0'),
-  port: joi.number().integer().default(3000),
+  port: joi.number().integer().default(3000), // NOSONAR
   awsBucketRegion: joi.string().required(),
   awsBucketName: joi.string().required(),
   holdingCommentsPrefix: joi.string().default('holding-comments'),
