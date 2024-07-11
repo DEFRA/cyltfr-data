@@ -2,8 +2,6 @@ name: UNITTEST
 
 on:
   push:
-  pull_request:
-    types: [opened, synchronize, reopened]
 
 jobs:
   build:
@@ -19,7 +17,7 @@ jobs:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of sonarcloud analysis
       - name: Run unit tests
         run: |
-          npm run install
+          npm install
           npm run test
           sed -i 's/\/home\/runner\/work\/cyltfr-data\/cyltfr-data\//\/github\/workspace\//g' test/output/lcov.info
       - name: SonarCloud Scan
