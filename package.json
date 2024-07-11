@@ -10,7 +10,7 @@
     "prepare": "husky .husky",
     "start": "node index.js",
     "test": "npm run test:lint && npm run test:jest",
-    "test:jest": "jest --no-cache  --detectOpenHandles --runInBand --forceExit  --collectCoverage server/**/__tests__/*.spec.js | tee > test/output/test-results.txt",
+    "test:jest": "jest --no-cache  --detectOpenHandles --runInBand --forceExit  --collectCoverage server/**/__tests__/*.spec.js",
     "test:integration": "jest --no-cache  --detectOpenHandles --runInBand --forceExit  --collectCoverage server/**/__integration__/*.spec.js",
     "test:lint": "standard",
     "test:watch": "jest --watch --no-cache --detectOpenHandles --runInBand --forceExit server/",
