@@ -37,11 +37,8 @@ const featuresAtPoint = function (data, x, y, approvedOnly) {
 }
 
 const extraInfoService = {
-
   getExtraInfoData,
-
   featuresAtPoint,
-
   formatExtraInfo
 }
 
