@@ -1,6 +1,5 @@
 const joi = require('joi')
-const boom = require('@hapi/boom')
-const service = require('../services')
+const extraInfoService = require('../services/extraInfoService')
 
 module.exports = {
   method: 'GET',
@@ -10,13 +9,10 @@ module.exports = {
     handler: async (request, _h) => {
       const params = request.params
 
-      try {
-        const result = await service.getExtraInfo(params.x, params.y)
-
-        return result
-      } catch (err) {
-        return boom.badRequest('Could not call service', err)
-      }
+      const data = await request.server.methods.getExtraInfoData()
+      const items = extraInfoService.featuresAtPoint(data, params.x, params.y, true)
+      const result = extraInfoService.formatExtraInfo(items)
+      return result
     },
     validate: {
       params: joi.object().keys({

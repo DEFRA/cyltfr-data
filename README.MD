@@ -34,6 +34,7 @@ Docker v20.10.0+
 | name                    | description      | required |        default        |                valid               | notes |
 |-------------------------|------------------|:--------:|-----------------------|:----------------------------------:|-------|
 | NODE_ENV                | Environment name |    no    | dev                   | dev,test,pre,prod-green,prod-blue  |       |
+| HOST                    | Host name        |    no    | 0.0.0.0               |                                    |       |
 | PORT                    | Port number      |    no    | 3000                  |                                    |       |
 | AWS_BUCKET_REGION       |                  |    yes   |                       |                                    |       |
 | AWS_BUCKET_NAME         |                  |    yes   |                       |                                    |       |
