@@ -13,7 +13,6 @@ const getExtraInfoDataFile = async function () {
   const fileDataLoader = require('./__mocks__/s3dataLoader.js')
   const data = await fileDataLoader()
 
-  console.log(data)
   return data
 }
 
