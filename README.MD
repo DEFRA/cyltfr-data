@@ -33,13 +33,14 @@ Docker v20.10.0+
 
 | name                    | description      | required |        default        |                valid               | notes |
 |-------------------------|------------------|:--------:|-----------------------|:----------------------------------:|-------|
-| NODE_ENV                | Environment name |    no    | dev                   | dev,test,pre,prod-green,prod-blue  |       |
-| HOST                    | Host name        |    no    | 0.0.0.0               |                                    |       |
-| PORT                    | Port number      |    no    | 3000                  |                                    |       |
-| AWS_BUCKET_REGION       |                  |    yes   |                       |                                    |       |
-| AWS_BUCKET_NAME         |                  |    yes   |                       |                                    |       |
-| HOLDING_COMMENTS_PREFIX |                  |    no    | holding-comments      |                                    |       |
-| MANIFEST_FILENAME       |                  |    no    | manifest.json         |                                    |       |
+| NODE_ENV                | Environment name   |    no    | dev                   | dev,test,pre,prod-green,prod-blue  |       |
+| HOST                    | Host name          |    no    | 0.0.0.0               |                                    |       |
+| PORT                    | Port number        |    no    | 3000                  |                                    |       |
+| STAND_ALONE             | Development option |    no    | false                 |                                    |       |
+| AWS_BUCKET_REGION       |                    |    yes   |                       |                                    |       |
+| AWS_BUCKET_NAME         |                    |    yes   |                       |                                    |       |
+| HOLDING_COMMENTS_PREFIX |                    |    no    | holding-comments      |                                    |       |
+| MANIFEST_FILENAME       |                    |    no    | manifest.json         |                                    |       |
 
 ## Running the application locally
 

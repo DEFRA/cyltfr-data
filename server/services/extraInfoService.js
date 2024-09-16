@@ -1,12 +1,22 @@
-const s3DataLoader = require('./s3dataLoader.js')
 const { point } = require('@turf/helpers')
+const config = require('../config')
 const booleanPointInPolygon = require('@turf/boolean-point-in-polygon').default
 
-const getExtraInfoData = async function () {
+const getExtraInfoDataS3 = async function () {
+  const s3DataLoader = require('./s3dataLoader.js')
   const data = await s3DataLoader()
 
   return data
 }
+
+const getExtraInfoDataFile = async function () {
+  const fileDataLoader = require('./__mocks__/s3dataLoader.js')
+  const data = await fileDataLoader()
+
+  return data
+}
+
+const getExtraInfoData = config.standAlone ? getExtraInfoDataFile : getExtraInfoDataS3
 
 const formatExtraInfo = function (extraInfoData) {
   const retVal = []
