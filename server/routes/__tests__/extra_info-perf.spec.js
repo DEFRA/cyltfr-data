@@ -14,7 +14,9 @@ afterAll(async () => {
   await server.stop()
 })
 
-describe('/Extra info test', () => {
+describe('/Extra info test - with performance logging', () => {
+  const config = require('../../config')
+  config.setConfigOptions({ performanceLogging: true })
   test('No parameters fails', async () => {
     const options = {
       method: 'GET',
