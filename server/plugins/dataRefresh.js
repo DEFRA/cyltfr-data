@@ -11,7 +11,7 @@ module.exports = {
               console.error('Error refreshing data', err)
               timeoutHandle = setupTimeout()
             })
-        }, options.time + 5000)
+        }, options.time + 5000) // NOSONAR
       }
       let timeoutHandle = setupTimeout()
       server.events.on('closing', () => {
