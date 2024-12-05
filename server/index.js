@@ -1,11 +1,16 @@
-const hapi = require('@hapi/hapi')
-const config = require('./config')
-const extraInfoService = require('./services/extraInfoService')
-const cache = require('./cache')
+import Hapi from '@hapi/hapi'
+import config from './config'
+import { getExtraInfoData } from './services/extraInfoService'
+import cache from './cache'
+import { plugin as router } from './plugins/router'
+import logErrors from './plugins/log-errors'
+import logging from './plugins/logging'
+import dataRefresh from './plugins/dataRefresh'
+import blipp from 'blipp'
 
-async function createServer () {
+async function createServer() {
   // Create the hapi server
-  const server = hapi.server({
+  const server = Hapi.server({
     host: config.host,
     port: config.port,
     routes: {
@@ -23,14 +28,14 @@ async function createServer () {
   const CACHE_GENERATE_TIMEOUT = 20 // 20 seconds
 
   // Register the plugins
-  await server.register(require('./plugins/router'))
-  await server.register(require('./plugins/log-errors'))
-  await server.register(require('./plugins/logging'))
-  await server.register({ plugin: require('./plugins/dataRefresh'), options: { time: CACHE_STALE * 1000 } })
-  await server.register(require('blipp'))
+  await server.register(router)
+  await server.register(logErrors)
+  await server.register(logging)
+  await server.register({ plugin: dataRefresh, options: { time: CACHE_STALE * 1000 } })
+  await server.register(blipp)
 
   // Register server methods
-  server.method('getExtraInfoData', extraInfoService.getExtraInfoData, {
+  server.method('getExtraInfoData', getExtraInfoData, {
     cache: {
       cache: 'server_cache',
       expiresIn: CACHE_EXPIRY * 1000,
@@ -43,4 +48,4 @@ async function createServer () {
   return server
 }
 
-module.exports = createServer
+export default createServer

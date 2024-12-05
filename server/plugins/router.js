@@ -1,13 +1,11 @@
-const routes = [].concat(
-  require('../routes/extra_info'),
-  require('../routes/healthcheck')
-)
+import extraInfoRoutes from '../routes/extra_info'
+import healthcheckRoutes from '../routes/healthcheck'
 
-module.exports = {
-  plugin: {
-    name: 'router',
-    register: (server, _options) => {
-      server.route(routes)
-    }
+const routes = [].concat(extraInfoRoutes, healthcheckRoutes)
+
+export const plugin = {
+  name: 'router',
+  register: (server, _options) => {
+    server.route(routes)
   }
 }

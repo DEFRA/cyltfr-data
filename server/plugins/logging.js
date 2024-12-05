@@ -1,7 +1,8 @@
-const config = require('../config')
+import config from '../config'
+import hapiPino from 'hapi-pino'
 
-module.exports = {
-  plugin: require('hapi-pino'),
+export default {
+  plugin: hapiPino,
   options: {
     logPayload: true,
     level: config.isDev ? 'debug' : 'warn'

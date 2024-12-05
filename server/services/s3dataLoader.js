@@ -1,14 +1,15 @@
-async function s3DataLoader () {
-  const AWS = require('@aws-sdk/client-s3')
-  const config = require('../config')
+import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3'
+import config from '../config'
+
+const s3DataLoader = async () => {
   const manifestKey = `${config.holdingCommentsPrefix}/${config.manifestFilename}`
 
-  const client = new AWS.S3Client({
+  const client = new S3Client({
     region: config.awsBucketRegion
   })
 
   const doS3Command = async (key) => {
-    const command = new AWS.GetObjectCommand({
+    const command = new GetObjectCommand({
       Bucket: config.awsBucketName,
       Key: key
     })
@@ -32,4 +33,4 @@ async function s3DataLoader () {
   return data
 }
 
-module.exports = s3DataLoader
+export default s3DataLoader

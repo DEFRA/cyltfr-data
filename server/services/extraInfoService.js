@@ -1,51 +1,49 @@
-const { point } = require('@turf/helpers')
-const config = require('../config')
-const booleanPointInPolygon = require('@turf/boolean-point-in-polygon').default
-const { performance } = require('node:perf_hooks')
+import { point } from '@turf/helpers'
+import booleanPointInPolygon from '@turf/boolean-point-in-polygon'
+import config from '../config'
+import { performance } from 'node:perf_hooks'
 
-const getExtraInfoDataS3 = async function () {
+const getExtraInfoDataS3 = async () => {
   let startTime
   if (config.performanceLogging) {
     startTime = performance.now()
   }
-  const s3DataLoader = require('./s3dataLoader.js')
-  const data = await s3DataLoader()
+  const s3DataLoader = await import('./s3dataLoader.js')
+  const data = await s3DataLoader.default()
   if (config.performanceLogging) {
     console.log('Extra info data load time: ', performance.now() - startTime)
   }
   return data
 }
 
-const getExtraInfoDataFile = async function () {
-  const fileDataLoader = require('./__mocks__/s3dataLoader.js')
-  const data = await fileDataLoader()
-
+const getExtraInfoDataFile = async () => {
+  const fileDataLoader = await import('./__mocks__/s3dataLoader.js')
+  const data = await fileDataLoader.default()
   return data
 }
 
 const getExtraInfoData = config.standAlone ? getExtraInfoDataFile : getExtraInfoDataS3
 
-const formatExtraInfo = function (extraInfoData) {
+const formatExtraInfo = (extraInfoData) => {
   const retVal = []
-
   extraInfoData.forEach((item) => {
-    retVal.push({
-      info: item[0].properties.info,
-      apply: item[0].properties.apply,
-      riskoverride: item[0].properties.riskOverride,
-      risktype: item[0].properties.riskType
+    item.features.features.forEach((feature) => {
+      retVal.push({
+        id: feature.id,
+        properties: feature.properties
+      })
     })
   })
   return retVal
 }
 
-const featuresAtPoint = function (data, x, y, approvedOnly) {
+const featuresAtPoint = (data, x, y, approvedOnly) => {
   let startTime
   if (config.performanceLogging) {
     startTime = performance.now()
   }
   const pointToCheck = point([x, y])
-  const dataToCheck = approvedOnly ? data.filter((item) => { return item.approvedBy ? item : null }) : data
+  const dataToCheck = approvedOnly ? data.filter((item) => item.approvedBy) : data
   const dataToReturn = []
   dataToCheck.forEach((item) => {
     item.features.features.forEach((feature) => {
@@ -60,10 +58,9 @@ const featuresAtPoint = function (data, x, y, approvedOnly) {
   return dataToReturn
 }
 
-const extraInfoService = {
+export {
   getExtraInfoData,
   featuresAtPoint,
   formatExtraInfo
 }
 
-module.exports = extraInfoService

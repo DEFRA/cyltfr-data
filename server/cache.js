@@ -1,6 +1,6 @@
-const CatboxMemory = require('@hapi/catbox-memory')
+import CatboxMemory from '@hapi/catbox-memory'
 
-module.exports = {
+export default {
   name: 'server_cache',
   provider: {
     constructor: CatboxMemory.Engine

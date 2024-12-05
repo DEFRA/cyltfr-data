@@ -1,4 +1,6 @@
-const value = jest.requireActual('../config')
+import actualConfig from '../config'
+
+const value = { ...actualConfig }
 
 value.performanceLogging = false
 value.standAlone = false
@@ -9,4 +11,4 @@ value.setConfigOptions = function (newValues) {
   })
 }
 
-module.exports = value
+export default value

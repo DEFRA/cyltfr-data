@@ -1,7 +1,7 @@
-const joi = require('joi')
-const extraInfoService = require('../services/extraInfoService')
+import joi from 'joi'
+import extraInfoService from '../services/extraInfoService'
 
-module.exports = {
+export default {
   method: 'GET',
   path: '/extra_info/{x}/{y}',
   options: {
