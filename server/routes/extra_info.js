@@ -1,5 +1,5 @@
 import joi from 'joi'
-import extraInfoService from '../services/extraInfoService'
+import { featuresAtPoint, formatExtraInfo } from '../services/extraInfoService'
 
 export default {
   method: 'GET',
@@ -10,8 +10,8 @@ export default {
       const params = request.params
 
       const data = await request.server.methods.getExtraInfoData()
-      const items = extraInfoService.featuresAtPoint(data, params.x, params.y, true)
-      const result = extraInfoService.formatExtraInfo(items)
+      const items = featuresAtPoint(data, params.x, params.y, true)
+      const result = formatExtraInfo(items)
       return result
     },
     validate: {

@@ -8,7 +8,7 @@ import logging from './plugins/logging'
 import dataRefresh from './plugins/dataRefresh'
 import blipp from 'blipp'
 
-async function createServer() {
+async function createServer () {
   // Create the hapi server
   const server = Hapi.server({
     host: config.host,

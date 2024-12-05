@@ -1,11 +1,22 @@
 import { constants as STATUS_CODES } from 'http2'
 import createServer from '../../index'
-import s3dataLoader from '../../services/s3dataLoader'
-import config from '../../config'
 let server
 
 jest.mock('../../services/s3dataLoader')
-jest.mock('../../config')
+jest.mock('../../config', () => ({
+  value: {
+    env: 'test',
+    port: 3000,
+    host: '0.0.0.0',
+    standAlone: false,
+    awsBucketRegion: 'us-west-2',
+    awsBucketName: 'my-bucket',
+    holdingCommentsPrefix: 'holding-comments',
+    manifestFilename: 'manifest.json',
+    performanceLogging: false,
+    setConfigOptions: jest.fn()
+  }
+}))
 
 beforeAll(async () => {
   server = await createServer()

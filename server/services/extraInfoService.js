@@ -27,7 +27,7 @@ const getExtraInfoData = config.standAlone ? getExtraInfoDataFile : getExtraInfo
 const formatExtraInfo = (extraInfoData) => {
   const retVal = []
   extraInfoData.forEach((item) => {
-    item.features.features.forEach((feature) => {
+    item.forEach((feature) => {
       retVal.push({
         id: feature.id,
         properties: feature.properties
@@ -63,4 +63,3 @@ export {
   featuresAtPoint,
   formatExtraInfo
 }
-
