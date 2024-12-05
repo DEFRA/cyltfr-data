@@ -1,11 +1,11 @@
 import Hapi from '@hapi/hapi'
-import config from './config'
-import { getExtraInfoData } from './services/extraInfoService'
-import cache from './cache'
-import { plugin as router } from './plugins/router'
-import logErrors from './plugins/log-errors'
-import logging from './plugins/logging'
-import dataRefresh from './plugins/dataRefresh'
+import config from './config.js'
+import { getExtraInfoData } from './services/extraInfoService.js'
+import cache from './cache.js'
+import { plugin as router } from './plugins/router.js'
+import logErrors from './plugins/log-errors.js'
+import logging from './plugins/logging.js'
+import dataRefresh from './plugins/dataRefresh.js'
 import blipp from 'blipp'
 
 async function createServer () {
@@ -48,4 +48,4 @@ async function createServer () {
   return server
 }
 
-export default createServer
+export { createServer }

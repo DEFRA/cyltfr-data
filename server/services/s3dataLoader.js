@@ -1,5 +1,5 @@
 import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3'
-import config from '../config'
+import config from '../config.js'
 
 const s3DataLoader = async () => {
   const manifestKey = `${config.holdingCommentsPrefix}/${config.manifestFilename}`

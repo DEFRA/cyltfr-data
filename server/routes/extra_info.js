@@ -1,5 +1,5 @@
 import joi from 'joi'
-import { featuresAtPoint, formatExtraInfo } from '../services/extraInfoService'
+import { featuresAtPoint, formatExtraInfo } from '../services/extraInfoService.js'
 
 export default {
   method: 'GET',

@@ -1,6 +1,6 @@
 import { constants as STATUS_CODES } from 'http2'
-import createServer from '../../index'
-import { value } from '../../config'
+import { createServer } from '../../index.js'
+import { value } from '../../config.js'
 
 jest.mock('../../config', () => ({
   value: {

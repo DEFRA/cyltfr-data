@@ -1,5 +1,5 @@
 import { constants as STATUS_CODES } from 'http2'
-import createServer from '../../index'
+import { createServer } from '../../index.js'
 let server
 
 beforeAll(async () => {
