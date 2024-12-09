@@ -1,16 +1,15 @@
 import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3'
-import config from '../config.js'
+import { config as dataConfig } from '../config.js'
 
 const s3DataLoader = async () => {
-  const manifestKey = `${config.holdingCommentsPrefix}/${config.manifestFilename}`
-
+  const manifestKey = `${dataConfig.holdingCommentsPrefix}/${dataConfig.manifestFilename}`
   const client = new S3Client({
-    region: config.awsBucketRegion
+    region: dataConfig.awsBucketRegion
   })
 
   const doS3Command = async (key) => {
     const command = new GetObjectCommand({
-      Bucket: config.awsBucketName,
+      Bucket: dataConfig.awsBucketName,
       Key: key
     })
     return client.send(command)
@@ -18,7 +17,7 @@ const s3DataLoader = async () => {
 
   const loadFeatureData = async (jsonData) => {
     await Promise.all(jsonData.map(async (item) => {
-      const itemResponse = await doS3Command(`${config.holdingCommentsPrefix}/${item.keyname}`)
+      const itemResponse = await doS3Command(`${dataConfig.holdingCommentsPrefix}/${item.keyname}`)
       const itemcontents = await itemResponse.Body.transformToString()
       const featureData = JSON.parse(itemcontents)
       item.features = featureData

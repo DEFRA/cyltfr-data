@@ -1,16 +1,16 @@
 import { point } from '@turf/helpers'
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon'
-import config from '../config.js'
+import { config as dataConfig } from '../config.js'
 import { performance } from 'node:perf_hooks'
 
 const getExtraInfoDataS3 = async () => {
   let startTime
-  if (config.performanceLogging) {
+  if (dataConfig.performanceLogging) {
     startTime = performance.now()
   }
   const s3DataLoader = await import('./s3dataLoader.js')
   const data = await s3DataLoader.default()
-  if (config.performanceLogging) {
+  if (dataConfig.performanceLogging) {
     console.log('Extra info data load time: ', performance.now() - startTime)
   }
   return data
@@ -22,16 +22,17 @@ const getExtraInfoDataFile = async () => {
   return data
 }
 
-const getExtraInfoData = config.standAlone ? getExtraInfoDataFile : getExtraInfoDataS3
+const getExtraInfoData = dataConfig.standAlone ? getExtraInfoDataFile : getExtraInfoDataS3
 
-const formatExtraInfo = (extraInfoData) => {
+const formatExtraInfo = function (extraInfoData) {
   const retVal = []
+
   extraInfoData.forEach((item) => {
-    item.forEach((feature) => {
-      retVal.push({
-        id: feature.id,
-        properties: feature.properties
-      })
+    retVal.push({
+      info: item[0].properties.info,
+      apply: item[0].properties.apply,
+      riskoverride: item[0].properties.riskOverride,
+      risktype: item[0].properties.riskType
     })
   })
   return retVal
@@ -39,7 +40,7 @@ const formatExtraInfo = (extraInfoData) => {
 
 const featuresAtPoint = (data, x, y, approvedOnly) => {
   let startTime
-  if (config.performanceLogging) {
+  if (dataConfig.performanceLogging) {
     startTime = performance.now()
   }
   const pointToCheck = point([x, y])
@@ -52,7 +53,7 @@ const featuresAtPoint = (data, x, y, approvedOnly) => {
       }
     })
   })
-  if (config.performanceLogging) {
+  if (dataConfig.performanceLogging) {
     console.log('Extra info featuresAtPoint time: ', performance.now() - startTime)
   }
   return dataToReturn
