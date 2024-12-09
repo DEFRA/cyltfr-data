@@ -1,6 +1,6 @@
 import { point } from '@turf/helpers'
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon'
-import { config as dataConfig } from '../config.js'
+import { value as dataConfig } from '../config.js'
 import { performance } from 'node:perf_hooks'
 
 const getExtraInfoDataS3 = async () => {

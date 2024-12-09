@@ -1,5 +1,5 @@
 import Hapi from '@hapi/hapi'
-import config from './config.js'
+import { value as config } from './config.js'
 import { getExtraInfoData } from './services/extraInfoService.js'
 import cache from './cache.js'
 import { plugin as router } from './plugins/router.js'

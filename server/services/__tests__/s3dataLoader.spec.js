@@ -6,6 +6,8 @@ import { sdkStreamMixin } from '@aws-sdk/util-stream-node'
 import s3dataLoader from '../../services/s3dataLoader.js'
 import { featuresAtPoint } from '../../services/extraInfoService.js'
 
+jest.mock('../../config')
+
 const TEST_NORTHING = 164573.87856146507
 const TEST_EASTING = 374676.7543833861
 

@@ -1,28 +1,15 @@
 import { constants as STATUS_CODES } from 'http2'
 import { createServer } from '../../index.js'
-import { value } from '../../config.js'
+import { value as config } from '../../config.js'
 
-jest.mock('../../config', () => ({
-  value: {
-    env: 'test',
-    port: 3000,
-    host: '0.0.0.0',
-    standAlone: false,
-    awsBucketRegion: 'us-west-2',
-    awsBucketName: 'my-bucket',
-    holdingCommentsPrefix: 'holding-comments',
-    manifestFilename: 'manifest.json',
-    performanceLogging: false,
-    setConfigOptions: jest.fn()
-  }
-}))
+jest.mock('../../config.js')
 
 let server
 
 beforeAll(async () => {
   server = await createServer()
   await server.initialize()
-  value.setConfigOptions({ performanceLogging: true })
+  config.setConfigOptions({ performanceLogging: true })
 })
 
 afterAll(async () => {

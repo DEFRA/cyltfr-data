@@ -1,4 +1,4 @@
-import config from '../config.js'
+import { value as config } from '../config.js'
 import hapiPino from 'hapi-pino'
 
 export default {

@@ -2,6 +2,8 @@ import { constants as STATUS_CODES } from 'http2'
 import { createServer } from '../../index.js'
 let server
 
+jest.mock('../../config.js')
+
 beforeAll(async () => {
   server = await createServer()
   await server.initialize()
