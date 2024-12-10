@@ -36,6 +36,4 @@ if (result.error) {
 
 const dataConfig = result.value
 
-console.log('dataConfig:', dataConfig)
-
 export { dataConfig }
