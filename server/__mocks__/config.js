@@ -1,4 +1,4 @@
-const value = {
+const dataConfig = {
   env: 'test',
   port: 3000,
   host: '0.0.0.0',
@@ -10,9 +10,9 @@ const value = {
   performanceLogging: false,
   setConfigOptions: function (newValues) {
     Object.keys(newValues).forEach(function (key) {
-      value[key] = newValues[key]
+      dataConfig[key] = newValues[key]
     })
   }
 }
 
-export { value }
+export { dataConfig }

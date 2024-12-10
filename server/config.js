@@ -34,4 +34,8 @@ if (result.error) {
   throw new Error(`Config validation error: ${result.error.message}`)
 }
 
-export default result.value
+const dataConfig = result.value
+
+console.log('dataConfig:', dataConfig)
+
+export { dataConfig }

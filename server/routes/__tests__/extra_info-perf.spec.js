@@ -1,6 +1,6 @@
 import { constants as STATUS_CODES } from 'http2'
 import { createServer } from '../../index.js'
-import { value as config } from '../../config.js'
+import { dataConfig } from '../../config.js'
 
 jest.mock('../../config.js')
 
@@ -9,7 +9,7 @@ let server
 beforeAll(async () => {
   server = await createServer()
   await server.initialize()
-  config.setConfigOptions({ performanceLogging: true })
+  dataConfig.setConfigOptions({ performanceLogging: true })
 })
 
 afterAll(async () => {

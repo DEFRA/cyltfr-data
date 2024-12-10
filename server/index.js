@@ -1,5 +1,5 @@
 import Hapi from '@hapi/hapi'
-import { value as config } from './config.js'
+import { dataConfig } from './config.js'
 import { getExtraInfoData } from './services/extraInfoService.js'
 import cache from './cache.js'
 import { plugin as router } from './plugins/router.js'
@@ -11,8 +11,8 @@ import blipp from 'blipp'
 async function createServer () {
   // Create the hapi server
   const server = Hapi.server({
-    host: config.host,
-    port: config.port,
+    host: dataConfig.host,
+    port: dataConfig.port,
     routes: {
       validate: {
         options: {
