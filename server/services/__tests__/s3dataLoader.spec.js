@@ -2,7 +2,7 @@ import { mockClient } from 'aws-sdk-client-mock'
 import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3'
 import { createReadStream } from 'fs'
 import path from 'path'
-import { sdkStreamMixin } from '@aws-sdk/util-stream-node'
+import { sdkStreamMixin } from '@smithy/util-stream'
 import s3dataLoader from '../../services/s3dataLoader.js'
 import { featuresAtPoint } from '../../services/extraInfoService.js'
 
