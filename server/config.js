@@ -36,4 +36,12 @@ if (result.error) {
 
 const dataConfig = result.value
 
+// Add some helper props
+dataConfig.isDev = dataConfig.env === 'dev'
+dataConfig.isTest = dataConfig.env === 'test'
+dataConfig.isProd = dataConfig.env.startsWith('prod-')
+if (process.env.JEST_WORKER_ID === undefined) {
+  console.log('Server config', dataConfig)
+}
+
 export { dataConfig }
