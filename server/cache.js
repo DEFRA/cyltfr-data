@@ -1,8 +1,8 @@
-import CatboxMemory from '@hapi/catbox-memory'
+import CatboxObject from '@hapi/catbox-object'
 
 export default {
   name: 'server_cache',
   provider: {
-    constructor: CatboxMemory.Engine
+    constructor: CatboxObject.Engine
   }
 }
