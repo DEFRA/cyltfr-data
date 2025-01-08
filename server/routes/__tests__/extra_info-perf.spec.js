@@ -7,9 +7,9 @@ jest.mock('../../config.js')
 let server
 
 beforeAll(async () => {
+  dataConfig.setConfigOptions({ performanceLogging: true })
   server = await createServer()
   await server.initialize()
-  dataConfig.setConfigOptions({ performanceLogging: true })
 })
 
 afterAll(async () => {
@@ -17,13 +17,13 @@ afterAll(async () => {
 })
 
 describe('/Extra info test - with performance logging', () => {
-  test('No parameters fails', async () => {
+  test('Parameter works', async () => {
     const options = {
       method: 'GET',
-      url: '/extra_info'
+      url: '/extra_info/1/1'
     }
 
     const response = await server.inject(options)
-    expect(response.statusCode).toEqual(STATUS_CODES.HTTP_STATUS_NOT_FOUND) // 404
+    expect(response.statusCode).toEqual(STATUS_CODES.HTTP_STATUS_OK) // 200
   })
 })
