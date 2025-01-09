@@ -39,10 +39,6 @@ const formatExtraInfo = function (extraInfoData) {
 }
 
 const featuresAtPoint = (data, x, y, approvedOnly) => {
-  let startTime
-  if (dataConfig.performanceLogging) {
-    startTime = performance.now()
-  }
   const pointToCheck = point([x, y])
   const dataToCheck = approvedOnly ? data.filter((item) => item.approvedBy) : data
   const dataToReturn = []
@@ -53,9 +49,6 @@ const featuresAtPoint = (data, x, y, approvedOnly) => {
       }
     })
   })
-  if (dataConfig.performanceLogging) {
-    console.log('Extra info featuresAtPoint time: ', performance.now() - startTime)
-  }
   return dataToReturn
 }
 

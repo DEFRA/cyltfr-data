@@ -30,6 +30,7 @@
   "license": "OGL-UK-3.0",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.609.0",
+    "@hapi/catbox-object": "^3.0.1",
     "@hapi/hapi": "^21.3.9",
     "@turf/boolean-point-in-polygon": "^7.0.0",
     "@turf/helpers": "^7.0.0",

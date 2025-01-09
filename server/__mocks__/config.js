@@ -2,7 +2,7 @@ const dataConfig = {
   env: 'test',
   port: 3000,
   host: '0.0.0.0',
-  standAlone: false,
+  standAlone: true,
   awsBucketRegion: 'us-west-2',
   awsBucketName: 'my-bucket',
   holdingCommentsPrefix: 'holding-comments',
