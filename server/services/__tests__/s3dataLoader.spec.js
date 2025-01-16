@@ -1,14 +1,17 @@
-const AWS = require('@aws-sdk/client-s3')
-const { mockClient } = require('aws-sdk-client-mock')
-const { sdkStreamMixin } = require('@smithy/util-stream')
-const { createReadStream } = require('fs')
-const path = require('path')
-const s3dataLoader = require('../s3dataLoader')
-const extraInfoService = require('../extraInfoService')
-const TEST_EASTING = 374676.7543833861
-const TEST_NORTHING = 164573.87856146507
+import { mockClient } from 'aws-sdk-client-mock'
+import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3'
+import { createReadStream } from 'fs'
+import path from 'path'
+import { sdkStreamMixin } from '@smithy/util-stream'
+import s3dataLoader from '../../services/s3dataLoader.js'
+import { featuresAtPoint } from '../../services/extraInfoService.js'
 
-const s3Mock = mockClient(AWS.S3Client)
+jest.mock('../../config')
+
+const TEST_NORTHING = 164573.87856146507
+const TEST_EASTING = 374676.7543833861
+
+const s3Mock = mockClient(S3Client)
 
 const resolveStream = function (options) {
   const filename = options.Key.replace('holding-comments/', '')
@@ -19,16 +22,17 @@ const resolveStream = function (options) {
 
 beforeAll(async () => {
   // mock the Amazon stuff
-  s3Mock.on(AWS.GetObjectCommand).callsFake(resolveStream)
+  s3Mock.on(GetObjectCommand).callsFake(resolveStream)
 })
 
 afterAll(async () => {
+  s3Mock.reset()
 })
 
 describe('/S3DataLoader test', () => {
   test('loads the manifest file', async () => {
     const data = await s3dataLoader()
-    const matchingData = extraInfoService.featuresAtPoint(data, TEST_EASTING, TEST_NORTHING, true)
+    const matchingData = featuresAtPoint(data, TEST_EASTING, TEST_NORTHING, true)
     expect(matchingData.length).toBe(4)
   })
 })

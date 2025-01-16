@@ -1,5 +1,5 @@
-const fs = require('fs')
-const path = require('path')
+import fs from 'fs'
+import path from 'path'
 
 function fileLoader (filepath, filename) {
   const data = fs.readFileSync(path.join(filepath, filename))
@@ -27,4 +27,4 @@ async function s3DataLoader () {
   return retdata
 }
 
-module.exports = s3DataLoader
+export default s3DataLoader

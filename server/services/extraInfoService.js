@@ -1,12 +1,28 @@
-const s3DataLoader = require('./s3dataLoader.js')
-const { point } = require('@turf/helpers')
-const booleanPointInPolygon = require('@turf/boolean-point-in-polygon').default
+import { point } from '@turf/helpers'
+import booleanPointInPolygon from '@turf/boolean-point-in-polygon'
+import { dataConfig } from '../config.js'
+import { performance } from 'node:perf_hooks'
 
-const getExtraInfoData = async function () {
-  const data = await s3DataLoader()
-
+const getExtraInfoDataS3 = async () => {
+  let startTime
+  if (dataConfig.performanceLogging) {
+    startTime = performance.now()
+  }
+  const s3DataLoader = await import('./s3dataLoader.js')
+  const data = await s3DataLoader.default()
+  if (dataConfig.performanceLogging) {
+    console.log('Extra info data load time: ', performance.now() - startTime)
+  }
   return data
 }
+
+const getExtraInfoDataFile = async () => {
+  const fileDataLoader = await import('./__mocks__/s3dataLoader.js')
+  const data = await fileDataLoader.default()
+  return data
+}
+
+const getExtraInfoData = dataConfig.standAlone ? getExtraInfoDataFile : getExtraInfoDataS3
 
 const formatExtraInfo = function (extraInfoData) {
   const retVal = []
@@ -22,9 +38,9 @@ const formatExtraInfo = function (extraInfoData) {
   return retVal
 }
 
-const featuresAtPoint = function (data, x, y, approvedOnly) {
+const featuresAtPoint = (data, x, y, approvedOnly) => {
   const pointToCheck = point([x, y])
-  const dataToCheck = approvedOnly ? data.filter((item) => { return item.approvedBy ? item : null }) : data
+  const dataToCheck = approvedOnly ? data.filter((item) => item.approvedBy) : data
   const dataToReturn = []
   dataToCheck.forEach((item) => {
     item.features.features.forEach((feature) => {
@@ -36,10 +52,8 @@ const featuresAtPoint = function (data, x, y, approvedOnly) {
   return dataToReturn
 }
 
-const extraInfoService = {
+export {
   getExtraInfoData,
   featuresAtPoint,
   formatExtraInfo
 }
-
-module.exports = extraInfoService
