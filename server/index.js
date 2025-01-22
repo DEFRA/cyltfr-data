@@ -7,9 +7,9 @@ import logErrors from './plugins/log-errors.js'
 import logging from './plugins/logging.js'
 import dataRefresh from './plugins/dataRefresh.js'
 import blipp from 'blipp'
+import { S3Client, HeadObjectCommand } from '@aws-sdk/client-s3'
 
 async function createServer () {
-  // Create the hapi server
   const server = Hapi.server({
     host: dataConfig.host,
     port: dataConfig.port,
@@ -27,15 +27,30 @@ async function createServer () {
   const CACHE_STALE = 480 // 8 minutes
   const CACHE_GENERATE_TIMEOUT = 20 // 20 seconds
 
-  // Register the plugins
   await server.register(router)
   await server.register(logErrors)
   await server.register(logging)
   await server.register({ plugin: dataRefresh, options: { time: CACHE_STALE * 1000 } })
   await server.register(blipp)
 
-  // Register server methods
-  server.method('getExtraInfoData', getExtraInfoData, {
+  const manifestKey = `${dataConfig.holdingCommentsPrefix}/${dataConfig.manifestFilename}`
+  const client = new S3Client({ region: dataConfig.awsBucketRegion })
+  let lastModified = null
+
+  server.method('getExtraInfoData', async () => {
+    const params = { Bucket: dataConfig.awsBucketName, Key: manifestKey }
+    const command = new HeadObjectCommand(params)
+    const response = await client.send(command)
+
+    if (JSON.stringify(response.LastModified) !== JSON.stringify(lastModified)) {
+      lastModified = response.LastModified
+      console.log('Manifest file has been modified since the last check.')
+      return await getExtraInfoData()
+    } else {
+      console.log('Manifest file has not been modified since the last check.')
+      return null
+    }
+  }, {
     cache: {
       cache: 'server_cache',
       expiresIn: CACHE_EXPIRY * 1000,
