@@ -33,13 +33,15 @@ const s3DataLoader = async () => {
   
   if (JSON.stringify(manifestFile.LastModified) === JSON.stringify(lastModified)) {
     console.log('Manifest file has not been modified since the last check.')
-    return lastModified
+    const cachedData = getCache('data')
+    return cachedData
   } else {
-    setCache('lastModified', manifestFile.LastModified)
     console.log('Manifest file has been modified since the last check.')
     const response = await doS3Command(manifestKey)
     const contents = await response.Body.transformToString()
     const data = await loadFeatureData(JSON.parse(contents))
+    setCache('lastModified', manifestFile.LastModified)
+    setCache('data', data)
     
     return data
   }
