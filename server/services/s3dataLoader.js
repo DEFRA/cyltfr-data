@@ -1,5 +1,6 @@
-import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3'
+import { S3Client, GetObjectCommand,HeadObjectCommand } from '@aws-sdk/client-s3'
 import { dataConfig } from '../config.js'
+import { setCache, getCache } from './serverCache.js'
 
 const s3DataLoader = async () => {
   const manifestKey = `${dataConfig.holdingCommentsPrefix}/${dataConfig.manifestFilename}`
@@ -25,11 +26,23 @@ const s3DataLoader = async () => {
     return jsonData
   }
 
-  const response = await doS3Command(manifestKey)
-  const contents = await response.Body.transformToString()
-  const data = await loadFeatureData(JSON.parse(contents))
-
-  return data
+  const params = { Bucket: dataConfig.awsBucketName, Key: manifestKey }
+  const getHeadCommand = new HeadObjectCommand(params)
+  const manifestFile = await client.send(getHeadCommand)
+  const lastModified = getCache('lastModified')
+  
+  if (JSON.stringify(manifestFile.LastModified) === JSON.stringify(lastModified)) {
+    console.log('Manifest file has not been modified since the last check.')
+    return lastModified
+  } else {
+    setCache('lastModified', manifestFile.LastModified)
+    console.log('Manifest file has been modified since the last check.')
+    const response = await doS3Command(manifestKey)
+    const contents = await response.Body.transformToString()
+    const data = await loadFeatureData(JSON.parse(contents))
+    
+    return data
+  }
 }
 
 export default s3DataLoader
