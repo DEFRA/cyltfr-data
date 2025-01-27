@@ -12,7 +12,7 @@ describe('s3dataLoader', () => {
     jest.clearAllMocks()
   })
 
-  it('should return cached data if manifest file has not been modified', async () => {
+  test('should return cached data if manifest file has not been modified', async () => {
     const mockLastModified = '2023-10-01T00:00:00.000Z'
     const mockCachedData = { key: 'value' }
     s3Mock.on(HeadObjectCommand).resolves({ LastModified: new Date(mockLastModified) })
@@ -29,16 +29,20 @@ describe('s3dataLoader', () => {
     expect(data).toEqual(mockCachedData)
   })
 
-  it.only('should save and return the data if manifest file has been modified', async () => {
+  test('should save and return the data if manifest file has been modified', async () => {
     const mockLastModified = '2023-10-02T00:00:00.000Z' // New last modified date
     const mockCachedModified = '2023-10-01T00:00:00.000Z' // Cached last modified date
     const mockCachedData = { key: 'oldValue' }
-    const mockNewData = { key: 'newValue' }
+    const mockNewData = [{ key: 'newValue' }]
     s3Mock.on(HeadObjectCommand).resolves({ LastModified: new Date(mockLastModified) })
 
-    s3Mock.on(GetObjectCommand).resolves({ Body: { transformToString: jest.fn(() => {
-      return JSON.stringify(mockNewData)
-    }) } })
+    s3Mock.on(GetObjectCommand).resolves({
+      Body: {
+        transformToString: jest.fn(() => {
+          return JSON.stringify(mockNewData)
+        })
+      }
+    })
 
     getCache.mockImplementation((key) => {
       if (key === 'lastModified') return mockCachedModified
@@ -47,6 +51,6 @@ describe('s3dataLoader', () => {
 
     const data = await s3DataLoader()
 
-    expect(data).toEqual(mockNewData)
+    expect(data).toEqual([{ features: mockNewData, key: 'newValue' }])
   })
 })
