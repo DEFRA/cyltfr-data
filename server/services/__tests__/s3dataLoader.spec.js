@@ -20,8 +20,11 @@ describe('s3dataLoader', () => {
     s3Mock.on(GetObjectCommand).resolves({ Body: mockCachedData })
 
     getCache.mockImplementation((key) => {
-      if (key === 'lastModified') return mockLastModified
-      if (key === 'data') return mockCachedData
+      if (key === 'lastModified') {
+        return mockLastModified
+      } else {
+        return mockCachedData
+      }
     })
 
     const data = await s3DataLoader()
