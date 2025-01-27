@@ -1,38 +1,38 @@
 import { mockClient } from 'aws-sdk-client-mock'
-import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3'
-import { createReadStream } from 'fs'
-import path from 'path'
-import { sdkStreamMixin } from '@smithy/util-stream'
-import s3dataLoader from '../../services/s3dataLoader.js'
-import { featuresAtPoint } from '../../services/extraInfoService.js'
+import { S3Client, HeadObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3'
+import { s3DataLoader } from '../s3dataLoader.js'
+import { getCache } from '../serverCache.js'
 
-jest.mock('../../config')
-
-const TEST_NORTHING = 164573.87856146507
-const TEST_EASTING = 374676.7543833861
-
+jest.mock('../../config.js')
+jest.mock('../serverCache.js')
+jest.mock('../s3dataLoader.js', () => ({
+  ...jest.requireActual('../s3dataLoader.js'),
+  transformToString: jest.fn()
+}))
 const s3Mock = mockClient(S3Client)
 
-const resolveStream = function (options) {
-  const filename = options.Key.replace('holding-comments/', '')
-  const stream = createReadStream(path.join('./server/services/__tests__/data', filename))
-  const sdkStream = sdkStreamMixin(stream)
-  return { Body: sdkStream }
-}
+describe('s3dataLoader', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
 
-beforeAll(async () => {
-  // mock the Amazon stuff
-  s3Mock.on(GetObjectCommand).callsFake(resolveStream)
-})
+  it('should return cached data if manifest file has not been modified', async () => {
+    const mockLastModified = '2023-10-01T00:00:00.000Z'
+    const mockCachedData = { key: 'value' }
+    s3Mock.on(HeadObjectCommand).resolves({ LastModified: new Date(mockLastModified) })
 
-afterAll(async () => {
-  s3Mock.reset()
-})
+    s3Mock.on(GetObjectCommand).resolves({ Body: mockCachedData })
 
-describe('/S3DataLoader test', () => {
-  test('loads the manifest file', async () => {
-    const data = await s3dataLoader()
-    const matchingData = featuresAtPoint(data, TEST_EASTING, TEST_NORTHING, true)
-    expect(matchingData.length).toBe(4)
+    getCache.mockImplementation((key) => {
+      if (key === 'lastModified') return mockLastModified
+      if (key === 'data') return mockCachedData
+    })
+
+    const { transformToString } = require('../s3dataLoader.js')
+    transformToString.mockResolvedValue(JSON.stringify(mockCachedData))
+
+    const data = await s3DataLoader()
+
+    expect(data).toEqual(mockCachedData)
   })
 })

@@ -1,4 +1,4 @@
-let cache = {}
+const cache = {}
 
 const setCache = (key, value) => {
   cache[key] = value
