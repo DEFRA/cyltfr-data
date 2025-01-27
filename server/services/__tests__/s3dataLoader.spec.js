@@ -30,9 +30,7 @@ describe('s3dataLoader', () => {
   })
 
   test('should save and return the data if manifest file has been modified', async () => {
-    const mockLastModified = '2023-10-02T00:00:00.000Z' // New last modified date
-    const mockCachedModified = '2023-10-01T00:00:00.000Z' // Cached last modified date
-    const mockCachedData = { key: 'oldValue' }
+    const mockLastModified = '2023-10-02T00:00:00.000Z'
     const mockNewData = [{ key: 'newValue' }]
     s3Mock.on(HeadObjectCommand).resolves({ LastModified: new Date(mockLastModified) })
 
@@ -42,11 +40,6 @@ describe('s3dataLoader', () => {
           return JSON.stringify(mockNewData)
         })
       }
-    })
-
-    getCache.mockImplementation((key) => {
-      if (key === 'lastModified') return mockCachedModified
-      if (key === 'data') return mockCachedData
     })
 
     const data = await s3DataLoader()
