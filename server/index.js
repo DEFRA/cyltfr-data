@@ -24,7 +24,7 @@ async function createServer () {
   })
 
   const CACHE_EXPIRY = 600 // 10 minutes
-  const CACHE_STALE = 480 // 8 minutes
+  const CACHE_STALE = 460 // 8 minutes
   const CACHE_GENERATE_TIMEOUT = 20 // 20 seconds
 
   // Register the plugins
