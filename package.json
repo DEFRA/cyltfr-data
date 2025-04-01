@@ -19,7 +19,7 @@
     "container:start": "docker run -d --rm --env-file .env -p 8050:8050 --name risk-data cyltfr-risk-data",
     "container:stop": "docker container kill risk-data",
     "container:builddebug": "docker build -t cyltfr-risk-data-debug --target development .",
-    "container:debug": "docker run -d --name risk-data-debug -p 8051:8051 -p 9229:9229 --rm --env-file .env.dev -v `pwd`:/home/node/app cyltfr-risk-data-debug npx nodemon --inspect=0.0.0.0 index.js",
+    "container:debug": "docker run -d --name risk-data-debug -p 8050:8050 -p 9229:9229 --rm --env-file .env.dev -v `pwd`:/home/node/app cyltfr-risk-data-debug npx nodemon --inspect=0.0.0.0 index.js",
     "container:stopdebug": "docker container kill risk-data-debug",
     "cd": "npm run container:debug",
     "cx": "npm run container:stopdebug",
