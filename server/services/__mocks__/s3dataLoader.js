@@ -9,7 +9,7 @@ function fileLoader (filepath, filename) {
 
 function loadFeatureData (jsonData, filepath) {
   const errors = []
-  
+
   jsonData.forEach((item, index) => {
     try {
       if (item.keyname === undefined) {
@@ -30,7 +30,6 @@ function loadFeatureData (jsonData, filepath) {
 
   return jsonData
 }
-
 
 function loadIndividualFeature (item, filepath) {
   const key = item.keyname
