@@ -49,4 +49,24 @@ describe('s3dataLoader', () => {
 
     expect(data).toEqual([{ features: mockNewData, keyname: 'newValue' }])
   })
+
+  test('should log an error if an item is missing keyname', async () => {
+    const mockLastModified = '2023-10-03T00:00:00.000Z'
+    const mockDataWithMissingKeyname = [{}]
+    const mockConsoleLog = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    s3Mock.on(HeadObjectCommand).resolves({ LastModified: new Date(mockLastModified) })
+
+    s3Mock.on(GetObjectCommand).resolves({
+      Body: {
+        transformToString: jest.fn(() => JSON.stringify(mockDataWithMissingKeyname))
+      }
+    })
+
+    const result = await s3DataLoader()
+
+    expect(mockConsoleLog).toHaveBeenCalledWith(expect.any(Error))
+    expect(result).toEqual(mockDataWithMissingKeyname)
+    mockConsoleLog.mockRestore()
+  })
 })
