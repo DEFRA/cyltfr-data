@@ -17,7 +17,6 @@ export const s3DataLoader = async () => {
   }
 
   const loadFeatureData = async (jsonData) => {
-    const errors = []
     await Promise.all(jsonData.map(async (item) => {
       try {
         if (item.keyname === undefined) {
@@ -27,8 +26,8 @@ export const s3DataLoader = async () => {
         const itemcontents = await itemResponse.Body.transformToString()
         const featureData = JSON.parse(itemcontents)
         item.features = featureData
-      } catch (error) {
-        errors.push(error.message)
+      } catch (err) {
+        console.log(err)
       }
     }))
     return jsonData
