@@ -8,10 +8,26 @@ function fileLoader (filepath, filename) {
 }
 
 function loadFeatureData (jsonData, filepath) {
-  jsonData.forEach((item) => {
-    const featureData = loadIndividualFeature(item, filepath)
-    item.features = featureData
+  const errors = []
+
+  jsonData.forEach((item, index) => {
+    try {
+      if (item.keyname === undefined) {
+        throw new Error(`Item at index ${index} is missing keyname`)
+      }
+      const featureData = loadIndividualFeature(item, filepath)
+      item.features = featureData
+    } catch (error) {
+      errors.push(error.message)
+      // Continue processing other items
+    }
   })
+
+  // If there were any errors, log them
+  if (errors.length > 0) {
+    console.error('Errors encountered while processing data:', errors)
+  }
+
   return jsonData
 }
 
