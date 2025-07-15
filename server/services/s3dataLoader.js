@@ -18,10 +18,17 @@ export const s3DataLoader = async () => {
 
   const loadFeatureData = async (jsonData) => {
     await Promise.all(jsonData.map(async (item) => {
-      const itemResponse = await doS3Command(`${dataConfig.holdingCommentsPrefix}/${item.keyname}`)
-      const itemcontents = await itemResponse.Body.transformToString()
-      const featureData = JSON.parse(itemcontents)
-      item.features = featureData
+      try {
+        if (item.keyname === undefined) {
+          throw new Error('An item in the holding comments is missing keyname')
+        }
+        const itemResponse = await doS3Command(`${dataConfig.holdingCommentsPrefix}/${item.keyname}`)
+        const itemcontents = await itemResponse.Body.transformToString()
+        const featureData = JSON.parse(itemcontents)
+        item.features = featureData
+      } catch (err) {
+        console.log(err)
+      }
     }))
     return jsonData
   }
