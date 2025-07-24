@@ -32,7 +32,8 @@ const formatExtraInfo = function (extraInfoData) {
       info: item[0].properties.info,
       apply: item[0].properties.apply,
       riskoverride: item[0].properties.riskOverride,
-      risktype: item[0].properties.riskType
+      risktype: item[0].properties.riskType,
+      riskoverridecc: item[0].properties.riskOverrideCc
     })
   })
   return retVal
