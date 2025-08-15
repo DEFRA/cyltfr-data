@@ -25,17 +25,21 @@ const getExtraInfoDataFile = async () => {
 const getExtraInfoData = dataConfig.standAlone ? getExtraInfoDataFile : getExtraInfoDataS3
 
 const formatExtraInfo = function (extraInfoData) {
+  console.log('Raw extraInfoData:', JSON.stringify(extraInfoData, null, 2))
   const retVal = []
 
   extraInfoData.forEach((item) => {
     retVal.push({
       info: item[0].properties.info,
       apply: item[0].properties.apply,
-      riskoverride: item[0].properties.riskOverride,
       risktype: item[0].properties.riskType,
-      riskoverridecc: item[0].properties.riskOverrideCc
+      riskoverridecc: item[0].properties.riskOverrideCc,
+      riskoverriderscc: item[0].properties.riskOverrideRSCC
     })
   })
+
+  console.log('Formatted extraInfo:', JSON.stringify(retVal, null, 2))
+
   return retVal
 }
 
