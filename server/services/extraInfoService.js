@@ -25,7 +25,6 @@ const getExtraInfoDataFile = async () => {
 const getExtraInfoData = dataConfig.standAlone ? getExtraInfoDataFile : getExtraInfoDataS3
 
 const formatExtraInfo = function (extraInfoData) {
-  console.log('Raw extraInfoData:', JSON.stringify(extraInfoData, null, 2))
   const retVal = []
 
   extraInfoData.forEach((item) => {
@@ -40,8 +39,6 @@ const formatExtraInfo = function (extraInfoData) {
       riskoverriderscc: item[0].properties.riskOverrideRSCC
     })
   })
-
-  console.log('Formatted extraInfo:', JSON.stringify(retVal, null, 2))
 
   return retVal
 }
