@@ -24,8 +24,8 @@ jobs:
           npm ci
           npm run test
           sed -i 's/\/home\/runner\/work\/cyltfr-data\/cyltfr-data\//\/github\/workspace\//g' test/output/lcov.info
-      - name: Official SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v6.0.0
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
