@@ -1,6 +1,6 @@
 {
   "name": "risk-data",
-  "version": "5.3.0",
+  "version": "5.4.0",
   "description": "Service to return admin data for CYLTFR service",
   "type": "module",
   "main": "index.js",
