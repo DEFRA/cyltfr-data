@@ -30,26 +30,26 @@
   "author": "Matthew Collins <matthew.collins@defra.gov.uk>",
   "license": "OGL-UK-3.0",
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.929.0",
+    "@aws-sdk/client-s3": "^3.1020.0",
     "@hapi/catbox-object": "^3.0.1",
-    "@hapi/hapi": "^21.4.4",
-    "@turf/boolean-point-in-polygon": "^7.2.0",
+    "@hapi/hapi": "^21.4.7",
+    "@turf/boolean-point-in-polygon": "^7.3.4",
     "@turf/helpers": "^7.2.0",
     "blipp": "^4.0.2",
-    "dotenv": "^17.2.3",
+    "dotenv": "^17.3.1",
     "hapi-pino": "^13.0.0",
-    "joi": "^18.0.1"
+    "joi": "^18.1.2"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.28.5",
-    "@smithy/util-stream": "^4.5.6",
+    "@babel/preset-env": "^7.29.2",
+    "@smithy/util-stream": "^4.5.21",
     "aws-sdk-client-mock": "^4.1.0",
     "babel-jest": "^30.2.0",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.4",
     "husky": "^9.1.7",
-    "jest": "^30.2.0",
-    "neostandard": "^0.12.2",
-    "nodemon": "^3.1.11"
+    "jest": "^30.3.0",
+    "neostandard": "^0.13.0",
+    "nodemon": "^3.1.14"
   },
   "lint-staged": {
     "*.js": "eslint --fix"
