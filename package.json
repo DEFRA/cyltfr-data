@@ -1,6 +1,6 @@
 {
   "name": "risk-data",
-  "version": "5.4.0",
+  "version": "5.5.0",
   "description": "Service to return admin data for CYLTFR service",
   "type": "module",
   "main": "index.js",
@@ -11,7 +11,7 @@
     "prepare": "husky .husky",
     "start": "node index.js",
     "test": "npm run test:lint && npm run test:audit && npm run test:jest",
-    "test:audit": "npm audit",
+    "test:audit": "npm audit --omit=dev",
     "test:jest": "jest --no-cache  --detectOpenHandles --runInBand --forceExit  --collectCoverage server/**/__tests__/*.spec.js",
     "test:integration": "jest --no-cache  --detectOpenHandles --runInBand --forceExit  --collectCoverage server/**/__integration__/*.spec.js",
     "test:lint": "eslint",
