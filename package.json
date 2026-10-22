@@ -38,7 +38,7 @@
     "blipp": "4.0.2",
     "dotenv": "17.4.2",
     "hapi-pino": "13.0.0",
-    "joi": "18.2.3"
+    "joi": "18.2.9"
   },
   "devDependencies": {
     "@babel/preset-env": "7.29.2",
