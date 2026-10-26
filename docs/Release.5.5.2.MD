@@ -1,6 +1,6 @@
 # Check Your Long Term Flood Risk Services (cyltfr-data)
 
-# v5.5.1
+# v5.5.2
 
 ## Release date 27 October 2026
 
