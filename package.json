@@ -1,11 +1,11 @@
 {
   "name": "risk-data",
-  "version": "5.5.1",
+  "version": "5.5.2",
   "description": "Service to return admin data for CYLTFR service",
   "type": "module",
   "main": "index.js",
   "engines": {
-    "node": ">=22.14.0"
+    "node": ">=22.23.4"
   },
   "scripts": {
     "prepare": "husky .husky",
